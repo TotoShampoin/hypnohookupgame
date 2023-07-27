@@ -1,0 +1,81 @@
+[gd_scene load_steps=10 format=3 uid="uid://bl4h83gny8da1"]
+
+[ext_resource type="Script" path="res://scripts/world.gd" id="1_x7k7y"]
+[ext_resource type="Texture2D" uid="uid://d3q0kamn7b1vo" path="res://assets/placeholder_player.png" id="2_5yia0"]
+[ext_resource type="PackedScene" uid="uid://cwhfokx7mdvkk" path="res://scenes/ground.tscn" id="3_uvhau"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_nvyry"]
+height = 0.625
+radius = 0.25
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oh8wm"]
+atlas = ExtResource("2_5yia0")
+region = Rect2(0, 0, 14, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qnukc"]
+atlas = ExtResource("2_5yia0")
+region = Rect2(14, 0, 14, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_es5wr"]
+atlas = ExtResource("2_5yia0")
+region = Rect2(28, 0, 14, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_axju4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oh8wm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qnukc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_es5wr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qnukc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="Environment" id="Environment_lbnr2"]
+background_mode = 1
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_x7k7y")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+
+[node name="Hitbox" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.313, 0)
+shape = SubResource("CylinderShape3D_nvyry")
+
+[node name="Node3D" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
+
+[node name="Sprite" type="AnimatedSprite3D" parent="Player/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.313, 0)
+pixel_size = 0.0313
+alpha_cut = 2
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_axju4")
+autoplay = "default"
+frame_progress = 0.325949
+
+[node name="Ground" parent="." instance=ExtResource("3_uvhau")]
+
+[node name="Light" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.612372, 0.353553, 0, 0.5, 0.866025, -0.707107, -0.612372, 0.353553, 1, 2, 1)
+shadow_enabled = true
+
+[node name="Skybox" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lbnr2")
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
+
+[node name="Camera" type="Camera3D" parent="Marker3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
+fov = 35.0

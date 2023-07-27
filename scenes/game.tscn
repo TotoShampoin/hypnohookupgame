@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://dydo51pkfcibl"]
+
+[ext_resource type="PackedScene" uid="uid://bl4h83gny8da1" path="res://scenes/world.tscn" id="1_7j7lv"]
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_ghfja"]
+[ext_resource type="Shader" path="res://shaders/spiral.gdshader" id="2_08h7s"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5sgjw"]
+shader = ExtResource("2_08h7s")
+shader_parameter/show = 0.0
+shader_parameter/distorsion = 0.0
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_8gro0"]
+
+[node name="Game" type="Control"]
+texture_filter = 1
+texture_repeat = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ghfja")
+
+[node name="Camera" type="SubViewportContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Camera"]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(320, 240)
+render_target_update_mode = 4
+
+[node name="World" parent="Camera/SubViewport" instance=ExtResource("1_7j7lv")]
+
+[node name="Spiral" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_5sgjw")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_8gro0")
