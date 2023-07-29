@@ -42,5 +42,5 @@ func addTile(counter: int):
 	add_child(tile)
 	tiles.append(tile)
 	tile.show()
-	tile.get_node("Label3D").text = str(counter)
+	# tile.get_node("Label3D").text = str(counter)
 	return tile

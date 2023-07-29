@@ -25,4 +25,5 @@ mesh = SubResource("PlaneMesh_b6n2v")
 
 [node name="Label3D" type="Label3D" parent="Ground_model"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.320217, -1)
+visible = false
 text = "0"

@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://4eape4vrlw56"]
+[gd_scene load_steps=13 format=3 uid="uid://4eape4vrlw56"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_g40t3"]
 [ext_resource type="Texture2D" uid="uid://d3q0kamn7b1vo" path="res://assets/placeholder_player.png" id="2_djmc0"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_nvyry"]
-height = 0.625
-radius = 0.25
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ktt1y"]
+height = 0.626
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oh8wm"]
 atlas = ExtResource("2_djmc0")
@@ -39,12 +38,32 @@ animations = [{
 "speed": 6.0
 }]
 
-[node name="Player" type="CharacterBody3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2grst"]
+transparency = 1
+albedo_color = Color(0, 0, 0, 0.521569)
+
+[sub_resource type="BoxMesh" id="BoxMesh_st082"]
+material = SubResource("StandardMaterial3D_2grst")
+size = Vector3(1.25, 0.626, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5c2ot"]
+size = Vector3(1.25, 0.625, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m1luk"]
+transparency = 1
+albedo_color = Color(1, 0, 1, 0.501961)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vmip3"]
+material = SubResource("StandardMaterial3D_m1luk")
+height = 0.626
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+collision_layer = 4
 script = ExtResource("1_g40t3")
 
 [node name="Hitbox" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.313, 0)
-shape = SubResource("CylinderShape3D_nvyry")
+shape = SubResource("CylinderShape3D_ktt1y")
 
 [node name="Node3D" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
@@ -57,4 +76,31 @@ alpha_cut = 2
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_axju4")
 autoplay = "default"
-frame_progress = 0.325949
+frame_progress = 0.429418
+
+[node name="Snap" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 8
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Snap"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.625, 0.313, 0)
+layers = 2
+mesh = SubResource("BoxMesh_st082")
+skeleton = NodePath("../..")
+
+[node name="Hitbox" type="CollisionShape3D" parent="Snap"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.625, 0.313, 0)
+shape = SubResource("BoxShape3D_5c2ot")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.313, 0)
+layers = 2
+mesh = SubResource("CylinderMesh_vmip3")
+skeleton = NodePath("")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
+
+[connection signal="body_entered" from="Snap" to="." method="_on_snap_body_entered"]
+[connection signal="body_exited" from="Snap" to="." method="_on_snap_body_exited"]

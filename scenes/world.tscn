@@ -1,86 +1,62 @@
-[gd_scene load_steps=11 format=3 uid="uid://bl4h83gny8da1"]
+[gd_scene load_steps=8 format=3 uid="uid://bl4h83gny8da1"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_x7k7y"]
-[ext_resource type="Script" path="res://scripts/player.gd" id="2_dvleq"]
-[ext_resource type="Texture2D" uid="uid://d3q0kamn7b1vo" path="res://assets/placeholder_player.png" id="3_1ug4m"]
+[ext_resource type="PackedScene" uid="uid://4eape4vrlw56" path="res://scenes/player.tscn" id="3_eg1de"]
 [ext_resource type="PackedScene" uid="uid://cwhfokx7mdvkk" path="res://scenes/ground.tscn" id="3_uvhau"]
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_nvyry"]
-height = 0.625
-radius = 0.25
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_oh8wm"]
-atlas = ExtResource("3_1ug4m")
-region = Rect2(0, 0, 14, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qnukc"]
-atlas = ExtResource("3_1ug4m")
-region = Rect2(14, 0, 14, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_es5wr"]
-atlas = ExtResource("3_1ug4m")
-region = Rect2(28, 0, 14, 20)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_axju4"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_oh8wm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qnukc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_es5wr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qnukc")
-}],
-"loop": true,
-"name": &"default",
-"speed": 6.0
-}]
+[ext_resource type="PackedScene" uid="uid://bepjtebxl0he0" path="res://scenes/folk.tscn" id="4_dwyyb"]
 
 [sub_resource type="Environment" id="Environment_lbnr2"]
 background_mode = 1
 
+[sub_resource type="Curve3D" id="Curve3D_i6wpj"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 5, 0, -2, 0, 0, 0, 0, 0, 0, 5, 0, 2),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kmc0f"]
+size = Vector3(2, 2, 4)
+
 [node name="World" type="Node3D"]
 script = ExtResource("1_x7k7y")
+folk_scene = ExtResource("4_dwyyb")
+timer_min = 1.0
+timer_max = 2.0
 
-[node name="Player" type="CharacterBody3D" parent="."]
-script = ExtResource("2_dvleq")
-
-[node name="Hitbox" type="CollisionShape3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.313, 0)
-shape = SubResource("CylinderShape3D_nvyry")
-
-[node name="Node3D" type="Node3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
-
-[node name="Sprite" type="AnimatedSprite3D" parent="Player/Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.313, 0)
-pixel_size = 0.0313
-double_sided = false
-alpha_cut = 2
-texture_filter = 0
-sprite_frames = SubResource("SpriteFrames_axju4")
-autoplay = "default"
-frame_progress = 0.325949
-
-[node name="Ground" parent="." instance=ExtResource("3_uvhau")]
+[node name="Skybox" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lbnr2")
 
 [node name="Light" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707106, 0.707106, -0.707107, -0.5, 0.5, 1, 2, 1)
 shadow_enabled = true
 
-[node name="Skybox" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_lbnr2")
-
 [node name="Marker3D" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0.260084, -0.141189)
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0.25, -0.15)
 
 [node name="Camera" type="Camera3D" parent="Marker3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, -1.49012e-07, 6)
+cull_mask = 1
 fov = 35.0
 
+[node name="Ground" parent="." instance=ExtResource("3_uvhau")]
+
+[node name="Player" parent="." instance=ExtResource("3_eg1de")]
+
+[node name="SpawnPath" type="Path3D" parent="."]
+curve = SubResource("Curve3D_i6wpj")
+
+[node name="SpawnLocation" type="PathFollow3D" parent="SpawnPath"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 5, 0, -2)
+
+[node name="OOB" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0)
+collision_layer = 16
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OOB"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 0)
+shape = SubResource("BoxShape3D_kmc0f")
+
 [connection signal="walk" from="Player" to="." method="_on_player_walk"]
+[connection signal="body_shape_entered" from="OOB" to="." method="_on_oob_body_shape_entered"]
