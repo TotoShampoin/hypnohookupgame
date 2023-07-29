@@ -9,7 +9,6 @@ var count = 0
 var total_scroll = 0
 var local_scroll = 0
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	model.hide()
 	count = -cull + 1
@@ -18,21 +17,11 @@ func _ready():
 		count += 1
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
-	# for i in range(-cull, cull + 1):
-	# 	tiles[i].position.x = i * model.scale.x * 2 - fmod(scroll, model.scale.x * 2)
 	
 
 func forward(delta):
-	# for tile in tiles:
-	# 	if tile.position.x < -cull * model.scale.x * 2:
-	# 		tile.queue_free()
-	# 		tiles.erase(tile)
-	# 		local_scroll -= model.scale.x * 2
-	# 		var new_tile = addTile()
-	# 		new_tile.position.x = (cull - 1) * model.scale.x * 2
 	if local_scroll > model.scale.x * 2:
 		tiles[0].queue_free()
 		tiles.remove_at(0)
@@ -44,7 +33,7 @@ func forward(delta):
 	local_scroll += delta
 	var i = -cull + 1
 	for tile in tiles:
-		tile.position.x = i * model.scale.x * 2 - local_scroll #  fmod(scroll, model.scale.x * 2)
+		tile.position.x = i * model.scale.x * 2 - local_scroll
 		i += 1
 
 

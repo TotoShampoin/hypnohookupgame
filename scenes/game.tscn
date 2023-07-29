@@ -1,8 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://dydo51pkfcibl"]
+[gd_scene load_steps=7 format=3 uid="uid://dydo51pkfcibl"]
 
 [ext_resource type="PackedScene" uid="uid://bl4h83gny8da1" path="res://scenes/world.tscn" id="1_7j7lv"]
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ghfja"]
 [ext_resource type="Shader" path="res://shaders/spiral.gdshader" id="2_08h7s"]
+
+[sub_resource type="Curve" id="Curve_ppyoa"]
+_data = [Vector2(0, 0), 0.0, 0.5, 0, 0, Vector2(1, 1), 2.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5sgjw"]
 shader = ExtResource("2_08h7s")
@@ -21,6 +25,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ghfja")
+SPIRAL_CURVE = SubResource("Curve_ppyoa")
 
 [node name="Camera" type="SubViewportContainer" parent="."]
 layout_mode = 1
@@ -48,3 +53,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("CanvasTexture_8gro0")
+
+[connection signal="hypnotized" from="Camera/SubViewport/World" to="." method="_on_world_hypnotized"]
+[connection signal="snap" from="Camera/SubViewport/World" to="." method="_on_world_snap"]
