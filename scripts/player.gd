@@ -15,13 +15,18 @@ signal walk(speed, delta)
 
 
 func _input(event):
+	if health == 0:
+		return
 	if event.is_action_pressed("snap"):
 		for folk in targets:
 			folk.get_hypnotized()
+		$Snap/Sprite.show()
+		$Snap/Sprite.play("snap")
 
 func _process(delta):
 	walk_target.z = Input.get_axis("up", "down")
-	# $Label3D.text = str(targets.size())
+	if not $Snap/Sprite.is_playing():
+		$Snap/Sprite.hide()
 
 func _physics_process(delta):
 	var speed = health / MAX_HEALTH

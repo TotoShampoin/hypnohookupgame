@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://bepjtebxl0he0"]
+[gd_scene load_steps=14 format=3 uid="uid://bepjtebxl0he0"]
 
 [ext_resource type="Script" path="res://scripts/folk.gd" id="1_4s776"]
 [ext_resource type="Texture2D" uid="uid://ne20di0rnomw" path="res://assets/placeholder_folk.png" id="2_34rv7"]
+[ext_resource type="Texture2D" uid="uid://u5h3chv2i5e6" path="res://assets/snap.png" id="3_tip5x"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_s6t7l"]
 height = 0.626
@@ -29,15 +30,44 @@ animations = [{
 "speed": 6.0
 }]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a2up2"]
-transparency = 1
-albedo_color = Color(1, 0, 0, 0.501961)
+[sub_resource type="AtlasTexture" id="AtlasTexture_kt7b4"]
+atlas = ExtResource("3_tip5x")
+region = Rect2(0, 0, 12, 12)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_rxikf"]
-material = SubResource("StandardMaterial3D_a2up2")
-top_radius = 0.25
-bottom_radius = 0.25
-height = 0.626
+[sub_resource type="AtlasTexture" id="AtlasTexture_xe13g"]
+atlas = ExtResource("3_tip5x")
+region = Rect2(12, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_46cxs"]
+atlas = ExtResource("3_tip5x")
+region = Rect2(24, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ibts"]
+atlas = ExtResource("3_tip5x")
+region = Rect2(36, 0, 12, 12)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6wcy6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kt7b4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xe13g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_46cxs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ibts")
+}],
+"loop": false,
+"name": &"snap",
+"speed": 24.0
+}]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7kwwj"]
+size = Vector3(0.626, 0.751, 0.5)
 
 [node name="Folk" type="CharacterBody3D" groups=["folks"]]
 collision_layer = 8
@@ -47,13 +77,11 @@ script = ExtResource("1_4s776")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.313, 0)
 shape = SubResource("CylinderShape3D_s6t7l")
 
-[node name="Node3D" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
-
-[node name="Sprite" type="AnimatedSprite3D" parent="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.313, 0)
+[node name="Sprite" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.344, 0)
 flip_h = true
 pixel_size = 0.0313
+billboard = 1
 double_sided = false
 alpha_cut = 2
 texture_filter = 0
@@ -61,17 +89,24 @@ sprite_frames = SubResource("SpriteFrames_axju4")
 autoplay = "default"
 frame_progress = 0.702933
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.313, 0)
-layers = 2
-mesh = SubResource("CylinderMesh_rxikf")
-
-[node name="Area3D" type="Area3D" parent="."]
+[node name="Snap" type="Area3D" parent="."]
 collision_layer = 0
 collision_mask = 4
 
-[node name="Hitbox" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.313, 0)
-shape = SubResource("CylinderShape3D_s6t7l")
+[node name="Sprite" type="AnimatedSprite3D" parent="Snap"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.25, 0)
+cast_shadow = 0
+pixel_size = 0.0313
+billboard = 1
+double_sided = false
+no_depth_test = true
+texture_filter = 0
+render_priority = 1
+sprite_frames = SubResource("SpriteFrames_6wcy6")
+animation = &"snap"
 
-[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[node name="Hitbox" type="CollisionShape3D" parent="Snap"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.313, 0.378, 0)
+shape = SubResource("BoxShape3D_7kwwj")
+
+[connection signal="body_entered" from="Snap" to="." method="_on_area_3d_body_entered"]

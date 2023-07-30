@@ -1,0 +1,15 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://c1gdoci2i2rk3"]
+
+[sub_resource type="SystemFont" id="SystemFont_25qra"]
+font_names = PackedStringArray("Segoe UI")
+font_weight = 700
+
+[sub_resource type="SystemFont" id="SystemFont_pkkj0"]
+font_names = PackedStringArray("Segoe UI")
+
+[resource]
+Fonts/font_sizes/big = 64
+Fonts/font_sizes/normal = 32
+Fonts/font_sizes/title = 128
+Fonts/fonts/large = SubResource("SystemFont_25qra")
+Fonts/fonts/normal = SubResource("SystemFont_pkkj0")

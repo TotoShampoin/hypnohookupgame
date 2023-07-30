@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dydo51pkfcibl"]
+[gd_scene load_steps=10 format=3 uid="uid://dydo51pkfcibl"]
 
 [ext_resource type="PackedScene" uid="uid://bl4h83gny8da1" path="res://scenes/world.tscn" id="1_7j7lv"]
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ghfja"]
 [ext_resource type="Shader" path="res://shaders/spiral.gdshader" id="2_08h7s"]
+[ext_resource type="Theme" uid="uid://c1gdoci2i2rk3" path="res://scenes/theme.tres" id="4_oqtyy"]
 
 [sub_resource type="Curve" id="Curve_ppyoa"]
 _data = [Vector2(0, 0), 0.0, 0.5, 0, 0, Vector2(1, 1), 2.0, 0.0, 0, 0]
@@ -10,11 +11,20 @@ point_count = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5sgjw"]
 shader = ExtResource("2_08h7s")
-shader_parameter/show = 0.0
+shader_parameter/show = 0.76
 shader_parameter/distorsion = 0.0
 shader_parameter/resolution = Vector2(320, 240)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_8gro0"]
+
+[sub_resource type="SystemFont" id="SystemFont_uo7rh"]
+font_names = PackedStringArray("Segoe UI")
+font_weight = 700
+
+[sub_resource type="LabelSettings" id="LabelSettings_7f4i3"]
+font = SubResource("SystemFont_uo7rh")
+font_size = 128
+font_color = Color(1, 0, 1, 1)
 
 [node name="Game" type="Control"]
 texture_filter = 1
@@ -53,7 +63,33 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_stretch_ratio = 4.41
 texture = SubResource("CanvasTexture_8gro0")
+
+[node name="Splash" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Text" type="Label" parent="Splash"]
+layout_mode = 2
+text = "TRANCED"
+label_settings = SubResource("LabelSettings_7f4i3")
+horizontal_alignment = 1
+
+[node name="Timer" type="Timer" parent="Splash"]
+wait_time = 0.333
+autostart = true
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme = ExtResource("4_oqtyy")
 
 [connection signal="hypnotized" from="Camera/SubViewport/World" to="." method="_on_world_hypnotized"]
 [connection signal="snap" from="Camera/SubViewport/World" to="." method="_on_world_snap"]
+[connection signal="timeout" from="Splash/Timer" to="." method="_on_timer_timeout"]
