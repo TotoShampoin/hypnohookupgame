@@ -1,9 +1,89 @@
-[gd_scene load_steps=8 format=3 uid="uid://bl4h83gny8da1"]
+[gd_scene load_steps=22 format=3 uid="uid://bl4h83gny8da1"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_x7k7y"]
 [ext_resource type="PackedScene" uid="uid://4eape4vrlw56" path="res://scenes/player.tscn" id="3_eg1de"]
+[ext_resource type="Script" path="res://scripts/folk_behaviour/normal.gd" id="3_qm18m"]
 [ext_resource type="PackedScene" uid="uid://cwhfokx7mdvkk" path="res://scenes/ground.tscn" id="3_uvhau"]
+[ext_resource type="Texture2D" uid="uid://ne20di0rnomw" path="res://assets/placeholder_folk.png" id="4_c45j3"]
 [ext_resource type="PackedScene" uid="uid://bepjtebxl0he0" path="res://scenes/folk.tscn" id="4_dwyyb"]
+[ext_resource type="Script" path="res://scripts/folk_behaviour/brat.gd" id="4_xigka"]
+[ext_resource type="Texture2D" uid="uid://diplxdxcmy6vd" path="res://assets/placeholders/brat.png" id="6_3g1el"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n0be6"]
+atlas = ExtResource("4_c45j3")
+region = Rect2(0, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_84u7d"]
+atlas = ExtResource("4_c45j3")
+region = Rect2(0, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3djiy"]
+atlas = ExtResource("4_c45j3")
+region = Rect2(0, 22, 16, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_px0r7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n0be6")
+}],
+"loop": true,
+"name": &"hypno",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_84u7d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3djiy")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 6.0
+}]
+
+[sub_resource type="Resource" id="Resource_sy18a"]
+script = ExtResource("3_qm18m")
+sprites = SubResource("SpriteFrames_px0r7")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lxf8u"]
+atlas = ExtResource("6_3g1el")
+region = Rect2(0, 0, 14, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7xicl"]
+atlas = ExtResource("6_3g1el")
+region = Rect2(0, 0, 14, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qlygi"]
+atlas = ExtResource("6_3g1el")
+region = Rect2(0, 17, 14, 17)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_86qwv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lxf8u")
+}],
+"loop": true,
+"name": &"hypno",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7xicl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qlygi")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 12.0
+}]
+
+[sub_resource type="Resource" id="Resource_wt6xv"]
+script = ExtResource("4_xigka")
+sprites = SubResource("SpriteFrames_86qwv")
 
 [sub_resource type="Environment" id="Environment_lbnr2"]
 background_mode = 1
@@ -22,9 +102,10 @@ size = Vector3(2, 2, 4)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_x7k7y")
-folk_scene = ExtResource("4_dwyyb")
 timer_min = 1.0
 timer_max = 2.0
+folk_scene = ExtResource("4_dwyyb")
+folk_behaviours = Array[Resource("res://scripts/folk_behaviour/_base.gd")]([SubResource("Resource_sy18a"), SubResource("Resource_wt6xv")])
 
 [node name="Skybox" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_lbnr2")

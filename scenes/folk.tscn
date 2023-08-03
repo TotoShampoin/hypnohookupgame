@@ -1,8 +1,18 @@
-[gd_scene load_steps=14 format=3 uid="uid://bepjtebxl0he0"]
+[gd_scene load_steps=17 format=3 uid="uid://bepjtebxl0he0"]
 
 [ext_resource type="Script" path="res://scripts/folk.gd" id="1_4s776"]
 [ext_resource type="Texture2D" uid="uid://ne20di0rnomw" path="res://assets/placeholder_folk.png" id="2_34rv7"]
+[ext_resource type="Shader" path="res://shaders/snap_marker.gdshader" id="2_87jv7"]
 [ext_resource type="Texture2D" uid="uid://u5h3chv2i5e6" path="res://assets/snap.png" id="3_tip5x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8nkgp"]
+render_priority = 0
+shader = ExtResource("2_87jv7")
+shader_parameter/period = 2.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_q777m"]
+material = SubResource("ShaderMaterial_8nkgp")
+size = Vector2(0.5, 0.5)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_s6t7l"]
 height = 0.626
@@ -66,23 +76,31 @@ animations = [{
 "speed": 24.0
 }]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_7kwwj"]
-size = Vector3(0.626, 0.751, 0.5)
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_skyr7"]
+height = 0.75
+radius = 0.35
 
 [node name="Folk" type="CharacterBody3D" groups=["folks"]]
 collision_layer = 8
 script = ExtResource("1_4s776")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+mesh = SubResource("PlaneMesh_q777m")
+skeleton = NodePath("../Hitbox")
 
 [node name="Hitbox" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.313, 0)
 shape = SubResource("CylinderShape3D_s6t7l")
 
 [node name="Sprite" type="AnimatedSprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.344, 0)
+centered = false
+offset = Vector2(-8, 0)
 flip_h = true
 pixel_size = 0.0313
 billboard = 1
 double_sided = false
+no_depth_test = true
 alpha_cut = 2
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_axju4")
@@ -94,7 +112,7 @@ collision_layer = 0
 collision_mask = 4
 
 [node name="Sprite" type="AnimatedSprite3D" parent="Snap"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.25, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 cast_shadow = 0
 pixel_size = 0.0313
 billboard = 1
@@ -106,7 +124,7 @@ sprite_frames = SubResource("SpriteFrames_6wcy6")
 animation = &"snap"
 
 [node name="Hitbox" type="CollisionShape3D" parent="Snap"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.313, 0.378, 0)
-shape = SubResource("BoxShape3D_7kwwj")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.375, 0)
+shape = SubResource("CylinderShape3D_skyr7")
 
 [connection signal="body_entered" from="Snap" to="." method="_on_area_3d_body_entered"]

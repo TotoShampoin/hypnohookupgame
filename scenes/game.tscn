@@ -1,9 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://dydo51pkfcibl"]
+[gd_scene load_steps=12 format=3 uid="uid://dydo51pkfcibl"]
 
 [ext_resource type="PackedScene" uid="uid://bl4h83gny8da1" path="res://scenes/world.tscn" id="1_7j7lv"]
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ghfja"]
 [ext_resource type="Shader" path="res://shaders/spiral.gdshader" id="2_08h7s"]
-[ext_resource type="Theme" uid="uid://c1gdoci2i2rk3" path="res://scenes/theme.tres" id="4_oqtyy"]
 
 [sub_resource type="Curve" id="Curve_ppyoa"]
 _data = [Vector2(0, 0), 0.0, 0.5, 0, 0, Vector2(1, 1), 2.0, 0.0, 0, 0]
@@ -25,6 +24,20 @@ font_weight = 700
 font = SubResource("SystemFont_uo7rh")
 font_size = 128
 font_color = Color(1, 0, 1, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_25qra"]
+font_names = PackedStringArray("Segoe UI")
+font_weight = 700
+
+[sub_resource type="SystemFont" id="SystemFont_pkkj0"]
+font_names = PackedStringArray("Segoe UI")
+
+[sub_resource type="Theme" id="Theme_akesq"]
+Fonts/font_sizes/big = 64
+Fonts/font_sizes/normal = 32
+Fonts/font_sizes/title = 128
+Fonts/fonts/large = SubResource("SystemFont_25qra")
+Fonts/fonts/normal = SubResource("SystemFont_pkkj0")
 
 [node name="Game" type="Control"]
 texture_filter = 1
@@ -88,7 +101,7 @@ autostart = true
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
-theme = ExtResource("4_oqtyy")
+theme = SubResource("Theme_akesq")
 
 [connection signal="hypnotized" from="Camera/SubViewport/World" to="." method="_on_world_hypnotized"]
 [connection signal="snap" from="Camera/SubViewport/World" to="." method="_on_world_snap"]

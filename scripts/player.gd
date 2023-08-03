@@ -1,4 +1,5 @@
 extends CharacterBody3D
+class_name Player
 
 @export var WALK_SPEED: float = 0.65
 @export var STRAFE: float = 3
@@ -23,7 +24,7 @@ func _input(event):
 		$Snap/Sprite.show()
 		$Snap/Sprite.play("snap")
 
-func _process(delta):
+func _process(_delta):
 	walk_target.z = Input.get_axis("up", "down")
 	if not $Snap/Sprite.is_playing():
 		$Snap/Sprite.hide()

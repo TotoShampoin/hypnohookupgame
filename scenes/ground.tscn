@@ -1,9 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://cwhfokx7mdvkk"]
+[gd_scene load_steps=9 format=3 uid="uid://cwhfokx7mdvkk"]
 
 [ext_resource type="Texture2D" uid="uid://qc35ctlt4c4t" path="res://assets/ground.png" id="1_for2k"]
 [ext_resource type="Script" path="res://scripts/ground.gd" id="1_qvlvd"]
+[ext_resource type="PackedScene" uid="uid://br5y3hw14y320" path="res://assets/models/ground.glb" id="4_cs0vt"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_j3jpv"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qasmo"]
+plane = Plane(0, 0, 1, 0)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_gohb7"]
+plane = Plane(0, 0, -1, 0)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6er8p"]
 albedo_texture = ExtResource("1_for2k")
@@ -12,18 +19,25 @@ texture_filter = 0
 [sub_resource type="PlaneMesh" id="PlaneMesh_b6n2v"]
 material = SubResource("StandardMaterial3D_6er8p")
 
-[node name="Ground" type="StaticBody3D" node_paths=PackedStringArray("model")]
+[node name="Ground" type="StaticBody3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 script = ExtResource("1_qvlvd")
-model = NodePath("Ground_model")
 
 [node name="Ground_hitbox" type="CollisionShape3D" parent="."]
 shape = SubResource("WorldBoundaryShape3D_j3jpv")
 
+[node name="Wall1" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+shape = SubResource("WorldBoundaryShape3D_qasmo")
+
+[node name="Wall2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+shape = SubResource("WorldBoundaryShape3D_gohb7")
+
 [node name="Ground_model" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("PlaneMesh_b6n2v")
 
-[node name="Label3D" type="Label3D" parent="Ground_model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.320217, -1)
-visible = false
-text = "0"
+[node name="Models" type="Node3D" parent="."]
+
+[node name="ground" parent="Models" instance=ExtResource("4_cs0vt")]
