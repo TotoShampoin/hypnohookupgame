@@ -31,6 +31,9 @@ func goto_target(parent: Folk):
 func can_spawn(_parent: Folk, _player: Player, _others: Array[Node], _distance: float):
 	return true
 
+func on_spawn(_parent: Folk, _player: Player, _others: Array[Node], _distance: float):
+	pass
+
 func react(_parent: Folk, _player: Player, _others: Array[Node], _distance: float, _delta: float):
 	pass
 
