@@ -3,6 +3,7 @@ shader_type canvas_item;
 uniform float show: hint_range(0.0, 1.0, 0.01) = 1.;
 uniform float distorsion: hint_range(0.0, 0.05, 0.001) = 0.;
 uniform vec2 resolution = vec2(320,240);
+uniform vec2 offset = vec2(.5, .5);
 
 const float frequence = 1.;
 const float dist = 1.;
@@ -26,7 +27,7 @@ vec2 wave(vec2 uv, float d) {
 }
 
 void fragment() {
-	vec2 uv = UV - .5;
+	vec2 uv = UV - offset;
 	uv = floor(uv * resolution) / resolution;
 	float l = length(uv);
     float render = spiral(uv+vec2(1,0)*wave(uv,distorsion), TIME * frequence);

@@ -3,7 +3,7 @@ class_name Folk
 
 var behaviour: FolkBehavior
 
-signal snap()
+signal snap(node: Folk)
 signal update(node: Folk, delta: float)
 
 var is_hypnotized = false
@@ -49,7 +49,12 @@ func _on_area_3d_body_entered(body:Node3D):
 	if is_hypnotized:
 		return
 	if body.is_in_group("player") and behaviour.can_snap:
-		emit_signal("snap")
-		$Snap/Sprite.show()
-		$Snap/Sprite.play("snap")
-		has_snapped = true
+		emit_signal("snap", self)
+		# $Snap/Sprite.show()
+		# $Snap/Sprite.play("snap")
+		# has_snapped = true
+
+func apply_snap():
+	$Snap/Sprite.show()
+	$Snap/Sprite.play("snap")
+	has_snapped = true

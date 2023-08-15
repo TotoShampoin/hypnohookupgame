@@ -92,6 +92,7 @@ size = Vector2(1.2, 1.2)
 
 [node name="Player" type="CharacterBody3D" groups=["player"]]
 collision_layer = 4
+collision_mask = 33
 script = ExtResource("1_g40t3")
 
 [node name="Hitbox" type="CollisionShape3D" parent="."]
@@ -139,5 +140,10 @@ mesh = SubResource("PlaneMesh_vwtas")
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
+[node name="Blink" type="Timer" parent="."]
+wait_time = 0.125
+autostart = true
+
 [connection signal="body_entered" from="Snap" to="." method="_on_snap_body_entered"]
 [connection signal="body_exited" from="Snap" to="." method="_on_snap_body_exited"]
+[connection signal="timeout" from="Blink" to="." method="_on_blink_timeout"]

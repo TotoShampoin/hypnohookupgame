@@ -13,6 +13,7 @@ shader = ExtResource("2_08h7s")
 shader_parameter/show = 0.76
 shader_parameter/distorsion = 0.0
 shader_parameter/resolution = Vector2(320, 240)
+shader_parameter/offset = Vector2(0.5, 0.5)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_8gro0"]
 

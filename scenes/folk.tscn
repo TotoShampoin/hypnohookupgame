@@ -86,6 +86,7 @@ script = ExtResource("1_4s776")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+visible = false
 mesh = SubResource("PlaneMesh_q777m")
 skeleton = NodePath("../Hitbox")
 

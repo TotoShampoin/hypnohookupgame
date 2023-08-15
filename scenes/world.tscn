@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bl4h83gny8da1"]
+[gd_scene load_steps=29 format=3 uid="uid://bl4h83gny8da1"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_x7k7y"]
 [ext_resource type="PackedScene" uid="uid://4eape4vrlw56" path="res://scenes/player.tscn" id="3_eg1de"]
@@ -8,44 +8,46 @@
 [ext_resource type="PackedScene" uid="uid://bepjtebxl0he0" path="res://scenes/folk.tscn" id="4_dwyyb"]
 [ext_resource type="Script" path="res://scripts/folk_behaviour/brat.gd" id="4_xigka"]
 [ext_resource type="Texture2D" uid="uid://diplxdxcmy6vd" path="res://assets/placeholders/brat.png" id="6_3g1el"]
+[ext_resource type="Script" path="res://scripts/folk_behaviour/thirsty.gd" id="7_qc4cp"]
+[ext_resource type="Texture2D" uid="uid://b8e4akltaoxu8" path="res://assets/placeholders/thirsty.png" id="8_p4nrl"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_n0be6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2a3e"]
 atlas = ExtResource("4_c45j3")
 region = Rect2(0, 0, 16, 22)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_84u7d"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_cmx23"]
 atlas = ExtResource("4_c45j3")
 region = Rect2(0, 0, 16, 22)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3djiy"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_pf1gg"]
 atlas = ExtResource("4_c45j3")
 region = Rect2(0, 22, 16, 22)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_px0r7"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_1crj5"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_n0be6")
+"texture": SubResource("AtlasTexture_d2a3e")
 }],
 "loop": true,
 "name": &"hypno",
-"speed": 6.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_84u7d")
+"texture": SubResource("AtlasTexture_cmx23")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3djiy")
+"texture": SubResource("AtlasTexture_pf1gg")
 }],
 "loop": true,
 "name": &"walk",
 "speed": 6.0
 }]
 
-[sub_resource type="Resource" id="Resource_sy18a"]
+[sub_resource type="Resource" id="Resource_28gmq"]
 script = ExtResource("3_qm18m")
-sprites = SubResource("SpriteFrames_px0r7")
+sprites = SubResource("SpriteFrames_1crj5")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lxf8u"]
 atlas = ExtResource("6_3g1el")
@@ -83,7 +85,51 @@ animations = [{
 
 [sub_resource type="Resource" id="Resource_wt6xv"]
 script = ExtResource("4_xigka")
+PACE_CENTER = 8.0
+PACE_RANGE = 3.0
+ANGLE_MIN = 0.785398
+ANGLE_MAX = 2.35619
+SPEED_MIN = 5
+SPEED_MAX = 9
 sprites = SubResource("SpriteFrames_86qwv")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_glmih"]
+atlas = ExtResource("8_p4nrl")
+region = Rect2(0, 0, 25, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fswm4"]
+atlas = ExtResource("8_p4nrl")
+region = Rect2(0, 0, 25, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v275f"]
+atlas = ExtResource("8_p4nrl")
+region = Rect2(0, 22, 25, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sa3ws"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_glmih")
+}],
+"loop": true,
+"name": &"hypno",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fswm4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v275f")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 6.0
+}]
+
+[sub_resource type="Resource" id="Resource_ru74f"]
+script = ExtResource("7_qc4cp")
+sprites = SubResource("SpriteFrames_sa3ws")
 
 [sub_resource type="Environment" id="Environment_lbnr2"]
 background_mode = 1
@@ -102,10 +148,9 @@ size = Vector3(2, 2, 4)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_x7k7y")
-timer_min = 1.0
-timer_max = 2.0
 folk_scene = ExtResource("4_dwyyb")
-folk_behaviours = Array[Resource("res://scripts/folk_behaviour/_base.gd")]([SubResource("Resource_sy18a"), SubResource("Resource_wt6xv")])
+folk_behaviours = Array[Resource("res://scripts/folk_behaviour/_base.gd")]([SubResource("Resource_28gmq"), SubResource("Resource_wt6xv"), SubResource("Resource_ru74f")])
+fb_distribution = Array[int]([5, 3, 1])
 
 [node name="Skybox" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_lbnr2")
@@ -115,7 +160,7 @@ transform = Transform3D(0.866026, -0.353553, 0.353553, 0, 0.707106, 0.707106, -0
 shadow_enabled = true
 
 [node name="Marker3D" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0.25, -0.15)
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
 
 [node name="Camera" type="Camera3D" parent="Marker3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, -1.49012e-07, 6)

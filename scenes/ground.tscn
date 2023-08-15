@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cwhfokx7mdvkk"]
+[gd_scene load_steps=11 format=3 uid="uid://cwhfokx7mdvkk"]
 
 [ext_resource type="Texture2D" uid="uid://qc35ctlt4c4t" path="res://assets/ground.png" id="1_for2k"]
 [ext_resource type="Script" path="res://scripts/ground.gd" id="1_qvlvd"]
@@ -12,6 +12,10 @@ plane = Plane(0, 0, 1, 0)
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_gohb7"]
 plane = Plane(0, 0, -1, 0)
 
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_sesb5"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_xdvd1"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6er8p"]
 albedo_texture = ExtResource("1_for2k")
 texture_filter = 0
@@ -21,6 +25,8 @@ material = SubResource("StandardMaterial3D_6er8p")
 
 [node name="Ground" type="StaticBody3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+collision_layer = 33
+collision_mask = 33
 script = ExtResource("1_qvlvd")
 
 [node name="Ground_hitbox" type="CollisionShape3D" parent="."]
@@ -33,6 +39,18 @@ shape = SubResource("WorldBoundaryShape3D_qasmo")
 [node name="Wall2" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 shape = SubResource("WorldBoundaryShape3D_gohb7")
+
+[node name="PlayerWalls" type="StaticBody3D" parent="."]
+collision_layer = 32
+collision_mask = 32
+
+[node name="Wall3" type="CollisionShape3D" parent="PlayerWalls"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -1, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_sesb5")
+
+[node name="Wall4" type="CollisionShape3D" parent="PlayerWalls"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 1, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_xdvd1")
 
 [node name="Ground_model" type="MeshInstance3D" parent="."]
 visible = false
