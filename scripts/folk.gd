@@ -35,6 +35,7 @@ func start_at(at: Vector3):
 func set_behavior(new_behaviour):
 	behaviour = new_behaviour.duplicate()
 	$Sprite.sprite_frames = behaviour.sprites
+	$Sprite.offset.x = -$Sprite.sprite_frames.get_frame_texture("walk", 0).get_width() / 2
 	$Sprite.play("walk")
 
 func get_hypnotized():
